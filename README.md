@@ -1,0 +1,2 @@
+# SmartGo
+Personal Go Project

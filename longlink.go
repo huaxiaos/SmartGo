@@ -29,6 +29,7 @@ func main() {
 }
 
 func tcpPipe(conn *net.TCPConn) {
+	fmt.Println("tcpPipe")
 	ipStr := conn.RemoteAddr().String()
 	defer func() {
 		fmt.Println("disconnected :" + ipStr)

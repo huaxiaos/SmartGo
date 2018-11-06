@@ -15,7 +15,7 @@ type Result struct {
 func main() {
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("/echo", echoHandler)
+	mux.HandleFunc("/", echoHandler)
 
 	http.ListenAndServe(":8080", mux)
 }

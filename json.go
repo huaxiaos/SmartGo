@@ -3,15 +3,13 @@ package main
 import (
 	"encoding/json"
 	"net/http"
-	"time"
 )
 
 //User defines model for storing account details in database
-type User struct {
-	Username  string
-	Password  string
-	IsAdmin   bool
-	CreatedAt time.Time
+type Result struct {
+	Code int    `json:"code"`
+	Msg  string `json:"msg"`
+	Data string `json:"data"`
 }
 
 func main() {
@@ -23,7 +21,7 @@ func main() {
 }
 
 func echoHandler(w http.ResponseWriter, r *http.Request) {
-	user := User{} //initialize empty user
+	result := Result{} //initialize empty user
 
 	//Parse json request body and use it to set fields on user
 	//Note that user is passed as a pointer variable so that it's fields can be modified
@@ -33,10 +31,14 @@ func echoHandler(w http.ResponseWriter, r *http.Request) {
 	//}
 
 	//Set CreatedAt field on user to current local time
-	user.CreatedAt = time.Now().Local()
+	//user.CreatedAt = time.Now().Local()
+
+	result.Code = 0
+	result.Msg = "success"
+	result.Data = r.URL.Path
 
 	//Marshal or convert user object back to json and write to response
-	userJson, err := json.Marshal(user)
+	resultJson, err := json.Marshal(result)
 	if err != nil {
 		panic(err)
 	}
@@ -45,5 +47,5 @@ func echoHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	//Write json response back to response
-	w.Write(userJson)
+	w.Write(resultJson)
 }
